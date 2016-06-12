@@ -1,0 +1,75 @@
+name: Liblevenshtein
+description: Various utilities regarding Levenshtein transducers.
+url: http://universal-automata.github.io/liblevenshtein/
+
+markdown: kramdown
+highlighter: pygments
+
+timezone: America/Los_Angeles
+encoding: utf-8
+
+# I18n, supported languages
+languages: ['en']
+
+google_analytics_id: UA-78779927-1
+google_site_verification: fru0rihSlg-M-gsHCwlRDxECb5tC3y5VtLXBYrluIE0
+
+repository: https://github.com/universal-automata/liblevenshtein
+help_url: https://gitter.im/universal-automata/liblevenshtein
+
+exclude:
+  - CHANGELOG.md
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - bower.json
+  - node_modules/
+  - package.json
+  - script/
+
+gems:
+  - jekyll-assets
+  - jekyll-avatar
+  - jekyll-coffeescript
+  - jekyll-feed
+  - jekyll-haml
+  - jekyll-language-plugin
+  - jekyll-mentions
+  - jekyll-scholar
+  - jekyll-scholar-extras
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll_inline_highlight
+  - jemoji
+
+jekyll-mentions:
+  base_url: https://github.com
+
+twitter:
+  username: liblevenshtein
+
+facebook:
+  app_id: 509050512634399
+  publisher: 1076060655781691
+  admins: 1419964328
+
+social:
+  name: Liblevenshtein
+  links:
+    - https://github.com/universal-automata/liblevenshtein
+    - https://github.com/universal-automata/liblevenshtein-coffeescript
+    - https://github.com/universal-automata/liblevenshtein-java
+    - https://github.com/universal-automata/liblevenshtein-java-cli
+    - https://github.com/universal-automata/liblevenshtein-shared
+    - https://github.com/universal-automata/liblevenshtein-website
+    - https://plus.google.com/111532735748855787778
+    - https://twitter.com/liblevenshtein
+    - https://www.facebook.com/liblevenshtein
+
+kramdown:
+  input: GFM
+
+sass:
+  style: expanded
+  deploy_style: compressed
+  compile_in_place: false

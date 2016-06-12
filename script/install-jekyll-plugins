@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+
+set -ev
+
+which git
+which ln
+which readlink
+
+BASE_DIR="$(dirname "$0")/.."
+if [[ ! "$BASE_DIR" =~ ^/.*$ ]]; then
+  BASE_DIR="$PWD/$BASE_DIR"
+fi
+
+PLUGIN_DIR="$BASE_DIR/jekyll_plugins"
+
+mkdir -p "$PLUGIN_DIR"
+pushd "$PLUGIN_DIR"
+
+function die() {
+  if [[ $# -ne 1 && $# -ne 2 ]]; then
+    echo "Usage: die \$MESSAGE" 1>&2
+    echo "Usage: die \$EXIT_CODE \$MESSAGE" 1>&2
+    exit 1
+  fi
+
+  local EXIT_CODE
+  local MESSAGE
+
+  if [[ $# -eq 1 ]]; then
+    EXIT_CODE=1
+    MESSAGE="$1"
+  else
+    EXIT_CODE=$1
+    MESSAGE="$2"
+  fi
+
+  echo "$MESSAGE" 1>&2
+  exit $EXIT_CODE
+}
+
+export -f die
+
+function assert-argnum() {
+  if [[ $# -lt 2 ]]; then
+    die "Usage: assert-argnum \$NUM_ARGS \"\$@\""
+  fi
+  local EXPECTED_ARGNUM=$1
+  shift
+  local ACTUAL_ARGNUM=$#
+  if [[ $EXPECTED_ARGNUM -ne $ACTUAL_ARGNUM ]]; then
+    echo "Expected exactly $EXPECTED_ARGNUM args, but received $ACTUAL_ARGNUM: $*" 1>&2
+    exit 1
+  fi
+}
+
+export -f assert-argnum
+
+function clone-or-pull() {
+  if [[ $# -ne 1 && $# -ne 2 ]]; then
+    die "Expected repository name and an optional branch name, but received $# args: $*"
+  fi
+
+  local GH_ORG_REPO="$1"
+
+  if [[ ! "$GH_ORG_REPO" =~ ^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$ ]]; then
+    die "Expected argument to be in the form GH_ORG/GH_REPO, but received: $GH_ORG_REPO"
+  fi
+
+  local GH_ORG="$(dirname "$GH_ORG_REPO")"
+  local GH_REPO="$(basename "$GH_ORG_REPO")"
+
+  if [[ -d "$GH_REPO" ]]; then
+    echo "Updating $GH_REPO"
+    pushd "$GH_REPO"
+    git pull origin $(git rev-parse --abbrev-ref HEAD)
+    popd
+  else
+    echo "Cloning $GH_ORG/$GH_REPO"
+    git clone "git@github.com:$GH_ORG/$GH_REPO.git"
+  fi
+
+  if [[ $# -eq 2 ]]; then
+    echo "Checking out origin/$BRANCH_NAME"
+    local BRANCH_NAME="$2"
+    pushd "$GH_REPO"
+    git fetch --tags
+    git checkout "$BRANCH_NAME"
+    popd
+  fi
+}
+
+export -f clone-or-pull
+
+function ln-if-ne() {
+  assert-argnum 2 "$@"
+
+  local SOURCE_PATH="$1"
+  local TARGET_PATH="$2"
+
+  if [[ ! -e "$SOURCE_PATH" && ! -L "$SOURCE_PATH" ]]; then
+    die "Source path does not exist: $SOURCE_PATH"
+  fi
+
+  if [[ -d "$TARGET_PATH" ]]; then
+    TARGET_PATH="$TARGET_PATH/$(basename "$SOURCE_PATH")"
+  fi
+
+  mkdir -p "$(dirname "$TARGET_PATH")"
+
+  if [[ ! -e "$TARGET_PATH" && ! -L "$TARGET_PATH" ]]; then
+    ln -vs "$SOURCE_PATH" "$TARGET_PATH"
+  else
+    local ACTUAL_PATH="$(readlink "$TARGET_PATH")"
+    if [[ "$ACTUAL_PATH" != "$SOURCE_PATH" ]]; then
+      die "Sources differ for the target [$TARGET_PATH]: [$ACTUAL_PATH] != [$SOURCE_PATH]"
+    fi
+  fi
+}
+
+export -f ln-if-ne
+
+function install-dir() {
+  local DIR_NAME="$1"
+  local PLUGIN_NAME="$2"
+  shift 2
+  local ABSOLUTE_PATH
+  for PLUGIN_PATH in "$@"; do
+    ABSOLUTE_PATH="$PLUGIN_DIR/$PLUGIN_NAME/$PLUGIN_PATH"
+    ln-if-ne "$ABSOLUTE_PATH" "$BASE_DIR/$DIR_NAME"
+  done
+}
+
+export -f install-dir
+
+function install-plugins() {
+  install-dir _plugins "$@"
+}
+
+export -f install-plugins
+
+function install-includes() {
+  install-dir _includes "$@"
+}
+
+export -f install-includes
+
+clone-or-pull 'bdesham/inline_highlight'
+install-plugins 'inline_highlight' \
+  'lib/jekyll_inline_highlight.rb'
+
+clone-or-pull 'git-no/jekyll-breadcrumbs' 'v.1.0.4'
+for SOURCE_DIR in _plugins _includes; do
+  mkdir -p "$BASE_DIR/$SOURCE_DIR"
+  install-dir "$SOURCE_DIR" 'jekyll-breadcrumbs' \
+    $(cd jekyll-breadcrumbs && find "$SOURCE_DIR" -mindepth 1 -maxdepth 1)
+done
+
+popd
+
+echo 'Success!'
+exit 0

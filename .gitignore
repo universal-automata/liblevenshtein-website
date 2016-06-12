@@ -7,5 +7,25 @@
 # Whitelist the following files and directories:
 !/.gitignore
 !/CHANGELOG.md
+!/Gemfile
+!/Gemfile.lock
+!/Gruntfile.coffee
 !/LICENSE
 !/README.md
+!/_config.yml
+!/bower.json
+!/css/**/*.sass
+!/js/**/*.coffee
+!/js/**/*.js
+!/package.json
+!/script/cibuild
+!/script/install-jekyll-plugins
+
+# Keep the Google, account-verification document
+!/google8c45aa6b2510ec1a.html
+
+# Ignore Bower dependencies (install them separately)
+/js/require-config.js
+
+# Ignore third-party plugins
+/jekyll-plugins

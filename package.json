@@ -1,0 +1,66 @@
+{
+  "private": true,
+  "name": "liblevenshtein-website",
+  "version": "3.0.0",
+  "description": "Website for liblevenshtein.",
+  "homepage": "http://universal-automata.github.io/liblevenshtein",
+  "bugs": "https://github.com/universal-automata/liblevenshtein-website/issues",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "universal-automata/liblevenshtein-website"
+  },
+  "author": {
+    "name": "Dylon Edwards",
+    "email": "dylon.devo@gmail.com",
+    "url": "https://github.com/dylon"
+  },
+  "contributors": [
+  ],
+  "keywords": [
+    "approximate string matching",
+    "automata",
+    "bioinformatics",
+    "computational biology",
+    "computer science",
+    "data science",
+    "dawg",
+    "dictionary",
+    "distance measure",
+    "distance metric",
+    "edit distance",
+    "finite state automata",
+    "finite state automaton",
+    "finite state transducer",
+    "fuzzy search",
+    "fuzzy searching",
+    "genomics",
+    "information retrieval",
+    "levenshtein automata",
+    "levenshtein distance",
+    "maching learning",
+    "mafsa",
+    "search engine",
+    "spelling correction",
+    "transducer",
+    "trie",
+    "universal automata"
+  ],
+  "devDependencies": {
+    "grunt": "~1.0.1",
+    "grunt-bower-requirejs": "~2.0.0",
+    "bower": "~1.7.9"
+  },
+  "files": [
+    "CHANGELOG.md",
+    "Gemfile",
+    "LICENSE",
+    "README.md",
+    "_config.yml",
+    "_data",
+    "css",
+    "google8c45aa6b2510ec1a.html",
+    "js",
+    "script"
+  ]
+}
