@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -ev
+source "$(dirname "$0")/functions"
+
+"$SCRIPT_DIR/install-clientside-plugins"
+"$SCRIPT_DIR/install-jekyll-plugins"
+
+check-install-bundler
+bundle install
+bundle update
+bundle exec jekyll build
+
+succeed
+
+# vim: set ft=sh ts=2 sw=2 et sta:

@@ -18,7 +18,11 @@
 !/js/**/*.coffee
 !/js/**/*.js
 !/package.json
+!/script/build-site
+!/script/check-site
 !/script/cibuild
+!/script/functions
+!/script/install-clientside-plugins
 !/script/install-jekyll-plugins
 
 # Keep the Google, account-verification document

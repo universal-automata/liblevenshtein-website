@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -ev
+source "$(dirname "$0")/functions"
+
+which npm
+
+npm install
+npm update
+./node_modules/bower/bin/bower install
+pushd bower_components/bootstrap
+npm install
+npm install grunt-cli
+./node_modules/grunt-cli/bin/grunt dist
+popd
+./node_modules/grunt/bin/grunt
+
+succeed
+
+# vim: set ft=sh ts=2 sw=2 et sta:

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -ev
+source "$(dirname "$0")/functions"
 
-bundle exec jekyll build
-bundle exec htmlproofer ./_site
+"$SCRIPT_DIR/build-site"
+"$SCRIPT_DIR/check-site"
