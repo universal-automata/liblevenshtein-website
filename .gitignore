@@ -32,4 +32,4 @@
 /js/require-config.js
 
 # Ignore third-party plugins
-/jekyll-plugins
+!/jekyll_plugins/.gitignore

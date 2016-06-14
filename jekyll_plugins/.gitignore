@@ -1,0 +1,5 @@
+# Blacklist everything by default, so nothing is accidentally committed:
+*
+
+# Keep this file
+!/.gitignore

@@ -10,6 +10,7 @@ pushd "$PLUGIN_DIR"
 
 function install-dir() {
   local DIR_NAME="$1"
+  mkdir -p "$BASE_DIR/$DIR_NAME"
   local PLUGIN_NAME="$2"
   shift 2
   local ABSOLUTE_PATH
@@ -39,7 +40,6 @@ install-plugins 'inline_highlight' \
 
 clone-or-pull 'git-no/jekyll-breadcrumbs' 'v.1.0.4'
 for SOURCE_DIR in _plugins _includes; do
-  mkdir -p "$BASE_DIR/$SOURCE_DIR"
   install-dir "$SOURCE_DIR" 'jekyll-breadcrumbs' \
     $(cd jekyll-breadcrumbs && find "$SOURCE_DIR" -mindepth 1 -maxdepth 1)
 done
