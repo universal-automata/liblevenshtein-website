@@ -35,11 +35,10 @@ gems:
   - jekyll-haml
   - jekyll-language-plugin
   - jekyll-mentions
-  - jekyll-scholar
-  - jekyll-scholar-extras
+  - jekyll/scholar
+  - jekyll/scholar/extras
   - jekyll-seo-tag
   - jekyll-sitemap
-  - jekyll_inline_highlight
   - jemoji
 
 jekyll-mentions:

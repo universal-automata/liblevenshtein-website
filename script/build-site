@@ -6,6 +6,7 @@ source "$(dirname "$0")/functions"
 "$SCRIPT_DIR/install-clientside-plugins"
 "$SCRIPT_DIR/install-jekyll-plugins"
 
+update-gems
 check-install-bundler
 bundle install
 bundle update

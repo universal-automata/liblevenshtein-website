@@ -13,6 +13,10 @@ fi
 
 export SCRIPT_DIR="$BASE_DIR/script"
 
+# Make sure the gems are available on the $PATH
+export PATH="$PATH:$(ruby -rubygems -e 'puts Gem.user_dir')/bin"
+export GEM_HOME="${GEM_HOME:-$(ruby -rubygems -e 'puts Gem.user_dir')}"
+
 function die() {
   if [[ $# -ne 1 && $# -ne 2 ]]; then
     echo "Usage: die \$MESSAGE" 1>&2
@@ -120,6 +124,13 @@ function ln-if-ne() {
 }
 
 export -f ln-if-ne
+
+function update-gems() {
+  which gem
+  gem update
+}
+
+export -f update-gems
 
 function check-install-bundler() {
   if ! which bundle; then
