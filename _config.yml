@@ -53,7 +53,7 @@ facebook:
   admins: 1419964328
 
 social:
-  name: Liblevenshtein
+  name: liblevenshtein
   links:
     - https://github.com/universal-automata/liblevenshtein
     - https://github.com/universal-automata/liblevenshtein-coffeescript

@@ -2,10 +2,6 @@
 
 set -ev
 
-which git
-which ln
-which readlink
-
 export BASE_DIR="$(dirname "$0")/.."
 if [[ ! "$BASE_DIR" =~ ^/.*$ ]]; then
   export BASE_DIR="$PWD/$BASE_DIR"
@@ -61,6 +57,15 @@ function assert-argnum() {
 
 export -f assert-argnum
 
+function command-exists() {
+  assert-argnum 1 "$@"
+  local COMMAND="$1"
+  which "$COMMAND" &>/dev/null
+  return $?
+}
+
+export -f command-exists
+
 function clone-or-pull() {
   if [[ $# -ne 1 && $# -ne 2 ]]; then
     die "Expected repository name and an optional branch name, but received $# args: $*"
@@ -74,6 +79,8 @@ function clone-or-pull() {
 
   local GH_ORG="$(dirname "$GH_ORG_REPO")"
   local GH_REPO="$(basename "$GH_ORG_REPO")"
+
+  command-exists git
 
   if [[ -d "$GH_REPO" ]]; then
     echo "Updating $GH_REPO"
@@ -97,13 +104,40 @@ function clone-or-pull() {
 
 export -f clone-or-pull
 
+function canonicalize-path() {
+  assert-argnum 1 "$@"
+  local UNCANONICAL_PATH="$1"
+  if command-exists realpath; then
+    echo "$(realpath -s "$UNCANONICAL_PATH")"
+  elif -d "$(readlink -e "$UNCANONICAL_PATH")"; then
+    pushd "$UNCANONICAL_PATH" &>/dev/null
+    pwd
+    popd &>/dev/null
+  else
+    pushd "$(dirname "$UNCANONICAL_PATH")" &>/dev/null
+    pwd
+    popd &>/dev/null
+  fi
+}
+
+export -f canonicalize-path
+
+function file-exists() {
+  assert-argnum 1 "$@"
+  local FILE_PATH="$1"
+  test -e "$FILE_PATH" || test -L "$FILE_PATH"
+  return $?
+}
+
+export -f file-exists
+
 function ln-if-ne() {
   assert-argnum 2 "$@"
 
   local SOURCE_PATH="$1"
   local TARGET_PATH="$2"
 
-  if [[ ! -e "$SOURCE_PATH" && ! -L "$SOURCE_PATH" ]]; then
+  if ! file-exists "$SOURCE_PATH"; then
     die "Source path does not exist: $SOURCE_PATH"
   fi
 
@@ -111,12 +145,17 @@ function ln-if-ne() {
     TARGET_PATH="$TARGET_PATH/$(basename "$SOURCE_PATH")"
   fi
 
+  SOURCE_PATH="$(canonicalize-path "$SOURCE_PATH")"
+  TARGET_PATH="$(canonicalize-path "$TARGET_PATH")"
+
   mkdir -p "$(dirname "$TARGET_PATH")"
 
-  if [[ ! -e "$TARGET_PATH" && ! -L "$TARGET_PATH" ]]; then
+  if ! file-exists "$TARGET_PATH"; then
     ln -vs "$SOURCE_PATH" "$TARGET_PATH"
   else
+    command-exists readlink
     local ACTUAL_PATH="$(readlink "$TARGET_PATH")"
+    ACTUAL_PATH="$(canonicalize-path "$ACTUAL_PATH")"
     if [[ "$ACTUAL_PATH" != "$SOURCE_PATH" ]]; then
       die "Sources differ for the target [$TARGET_PATH]: [$ACTUAL_PATH] != [$SOURCE_PATH]"
     fi
@@ -126,15 +165,15 @@ function ln-if-ne() {
 export -f ln-if-ne
 
 function update-gems() {
-  which gem
+  command-exists gem
   gem update
 }
 
 export -f update-gems
 
 function check-install-bundler() {
-  if ! which bundle; then
-    which gem
+  if ! command-exists bundle; then
+    command-exists gem
     gem install bundler
   fi
 }

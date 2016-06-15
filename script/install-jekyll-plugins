@@ -38,8 +38,7 @@ clone-or-pull 'bdesham/inline_highlight'
 install-plugins 'inline_highlight' \
   'lib/jekyll_inline_highlight.rb'
 
-#clone-or-pull 'git-no/jekyll-breadcrumbs' 'v.1.0.4'
-clone-or-pull 'universal-automata/jekyll-breadcrumbs' 'hotfix-1.0.5'
+clone-or-pull 'git-no/jekyll-breadcrumbs' 'v.1.0.5'
 for SOURCE_DIR in _plugins _includes; do
   install-dir "$SOURCE_DIR" 'jekyll-breadcrumbs' \
     $(cd jekyll-breadcrumbs && find "$SOURCE_DIR" -mindepth 1 -maxdepth 1)

@@ -4,7 +4,7 @@ set -ev
 source "$(dirname "$0")/functions"
 
 check-install-bundler
-bundle exec htmlproofer ./_site
+bundle exec htmlproofer --disable-external ./_site
 
 succeed
 
