@@ -49,7 +49,7 @@
   "devDependencies": {
     "grunt": "~1.0.1",
     "grunt-bower-requirejs": "~2.0.0",
-    "bower": "~1.7.9"
+    "bower": "~1.8.8"
   },
   "files": [
     "CHANGELOG.md",
