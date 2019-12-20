@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'html-proofer', '>= 3.11.1'
 gem 'jekyll', '>= 3.6.3'
-gem 'jekyll-assets', '>= 2.2.7'
+gem 'jekyll-assets', '>= 2.4.0'
 gem 'jekyll-avatar', '>= 0.4.0'
 gem 'jekyll-coffeescript'
 gem 'jekyll-feed'
