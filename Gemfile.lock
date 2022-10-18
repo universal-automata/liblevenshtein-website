@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/jgoodall/jekyll-scholar-extras.git
+  remote: https://github.com/jgoodall/jekyll-scholar-extras.git
   revision: de9c4a1db0b9003b8ce5c2d1c97fb2f55328d2cc
   specs:
     jekyll-scholar-extras (0.0.3)
@@ -129,15 +129,17 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     mercenary (0.3.6)
-    mini_portile2 (2.4.0)
+    mini_portile2 (2.8.0)
     minitest (5.13.0)
     namae (1.0.1)
-    nokogiri (1.10.5)
-      mini_portile2 (~> 2.4.0)
+    nokogiri (1.13.9)
+      mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
     parallel (1.19.0)
     pathutil (0.16.2)
       forwardable-extended (~> 2.6)
     public_suffix (4.0.1)
+    racc (1.6.0)
     rack (2.0.8)
     rainbow (3.0.0)
     rb-fsevent (0.10.3)
