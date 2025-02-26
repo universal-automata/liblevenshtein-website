@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'html-proofer', '>= 3.11.1'
+gem 'html-proofer', '>= 3.15.0'
 gem 'jekyll', '>= 3.6.3'
 gem 'jekyll-assets', '>= 2.4.0'
 gem 'jekyll-avatar', '>= 0.4.0'
@@ -14,4 +14,4 @@ gem 'jekyll-scholar-extras', :github => 'jgoodall/jekyll-scholar-extras'
 gem 'jekyll-seo-tag', '>= 2.0.0'
 gem 'jekyll-sitemap'
 gem 'jemoji', '>= 0.11.1'
-gem 'nokogiri', '>= 1.10.5'
+gem 'nokogiri', '>= 1.18.3'
